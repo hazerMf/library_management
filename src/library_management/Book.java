@@ -18,6 +18,7 @@ public class Book {
     private String comment;
     private int copy;
 
+    
     public Book(String isbn, String title, String author, String publisher, String publishDate, float rating, String comment, int copy) {
         this.isbn = isbn;
         this.title = title;
@@ -29,27 +30,51 @@ public class Book {
         this.copy = copy;
     }
 
+    
+    public String getIsbn() {
+        return isbn;
+    }
+    
     public String getTitle() {
         return title;
     }
+    
     public String getAuthor() {
         return author;
     }
+    
     public String getPublisher() {
         return publisher;
     }
+    
     public String getPublishDate() {
         return publishDate;
     }
+    
     public float getRating() {
         return rating;
     }
+    
     public String getComment() {
         return comment;
     }
+    
     public int getCopy() {
         return copy;
     }
+    
+    public void rate(float rating) {
+        this.rating = rating;
+    }
+    
+    public void addComment(String comment) {
+        this.comment = comment;
+    }
+    
+    public void setCopy(int copy) {
+        this.copy = copy;
+    }
+
     public String getInfoBook() {
         return String.format(
                 "ISBN Number: %s\nTitle: %s\nAuthor: %s\nPublisher: %s\nPublish Date: %s\nRating: %.2f\nComment: %s\nCopies: %d", 
@@ -63,10 +88,5 @@ public class Book {
                 getCopy()
         );
     }
-    public void rate(float rating) {
-        this.rating = rating;
-    }
-    public void addComment(String comment) {
-        this.comment = comment;
-    }
+    
 }

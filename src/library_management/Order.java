@@ -8,7 +8,7 @@ package library_management;
  *
  * @author HLC_2021
  */
-public class Loan {
+public class Order {
     private String id;
     private String borrowDate;
     private String returnDate;
@@ -16,28 +16,50 @@ public class Loan {
     private int excessiveDay;
     private int fine;
 
-    public Loan(String id, String borrowDate, String returnDate, Book book) {
+    
+    public Order(String id, String borrowDate, String returnDate, Book book) {
         this.id = id;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
         this.book = book;
     }
 
+    
     public String getBorrowDate() {
         return borrowDate;
     }
+    
+    public void setBorrowDate(String borrowDate) {
+        this.borrowDate = borrowDate;
+    }
+    
     public String getReturnDate() {
         return returnDate;
     }
+    
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
+    }
+    
     public int getExcessiveDay() {
         return excessiveDay;
     }
+    
+    public void setExcessiveDay(int excessiveDay) {
+        this.excessiveDay = excessiveDay;
+    }
+    
     public int getFine() {
         return fine;
     }
-    public String getInfoLoan() {
+    
+    public void setFine(int fine) {
+        this.fine = fine;
+    }
+    
+    public String getInfoOrder() {
         return String.format(
-                "Loan ID: %s\nBorrow Date: %s\nReturn Date: %s\nBook Title: %s\nExcessive Days: %d\nFine: %d",
+                "Order ID: %s\nBorrow Date: %s\nReturn Date: %s\nBook Title: %s\nExcessive Days: %d\nFine: %d",
                 id,
                 getBorrowDate(),
                 getReturnDate(),

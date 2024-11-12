@@ -10,59 +10,59 @@ import java.util.ArrayList;
  *
  * @author HLC_2021
  */
-public class Manager {
-    private ArrayList<Book> books;
-    private ArrayList<User> users;
-    private ArrayList<Loan> loans;
-    private ArrayList<Request> requests;
+public class Manager extends User{
+    private String position;
+    private int salary;
+
     
-    public String getInfoLib() {
-        return String.format(
-                "Book Num: %d\nUser Num: %d\nLoan Num: %d\nRequest Num: %d", 
-                books.size(), 
-                users.size(), 
-                loans.size(), 
-                requests.size()
-        );
+    public Manager(String id, String name, String phone, String email, String address, String position, int salary) {
+        super(id, name, phone, email, address);
+        this.position = position;
+        this.salary = salary;
     }
-    public void addBook(Book book) {
-        if (!books.contains(book)) {
-            books.add(book);
-        }
+
+    
+    public String getPosition() {
+        return position;
     }
-    public void removeBook(Book book) {
-        if (books.contains(book)) {
-            books.remove(book);
-        }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
-    public void addLoan(Loan loan) {
-        if (!loans.contains(loan)) {
-            loans.add(loan);
-        }
+
+    public int getSalary() {
+        return salary;
     }
-    public void removeLoan(Loan loan) {
-        if (loans.contains(loan)) {
-            loans.remove(loan);
-        }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
-    public void addRquest(Request request) {
-        if (!requests.contains(request)) {
-            requests.add(request);
-        }
+    
+    public void createReader(Database database) {
+        
     }
-    public void removeRequest(Request request) {
-        if (requests.contains(request)) {
-            requests.remove(request);
-        }
+    
+    public void deleteReader(Database database) {
+        
     }
-    public void addUser(User user) {
-        if (!users.contains(user)) {
-            users.add(user);
-        }
+    
+    public void createBook(Database database) {
+        
     }
-    public void removeUser(User user) {
-        if (users.contains(user)) {
-            users.remove(user);
-        }
+    
+    public void deleteBook(Database database) {
+        
+    }
+    
+    public void checkReaderDetail(Database database) {
+        
+    }
+    
+    public void checkNumberBook(Database database) {
+        
+    }
+    
+    public void checkNumberUser(Database database) {
+        
     }
 }

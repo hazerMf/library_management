@@ -9,33 +9,50 @@ package library_management;
  * @author HLC_2021
  */
 public class Request {
-    private String id;
-    private String requireDay;
-    private String requestor;
+    private final String id;
+    private String requireDate;
+    private Reader requestor;
     private Book book;
 
-    public Request(String id, String requireDay, String requestor, Book book) {
+    
+    public Request(String id, String requireDate, Reader requestor, Book book) {
         this.id = id;
-        this.requireDay = requireDay;
+        this.requireDate = requireDate;
         this.requestor = requestor;
         this.book = book;
     }
 
-    public String getRequireDay() {
-        return requireDay;
+    
+    public String getRequireDate() {
+        return requireDate;
     }
-    public String getRequestor() {
+    
+    public void setRequireDate(String requireDate) {
+        this.requireDate = requireDate;
+    }
+    
+    public Reader getRequestor() {
         return requestor;
     }
+    
+    public void setRequestor(Reader requestor) {
+        this.requestor = requestor;
+    }
+    
     public Book getBook() {
         return book;
     }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+    
     public String getInfoRequest() {
         return String.format(
                 "Request ID: %s\nRequire Day: %s\nRequestor: %s\nBook Name: %s",
                 id,
-                getRequireDay(),
-                getRequestor(),
+                getRequireDate(),
+                getRequestor().getName(),
                 book.getTitle()
         );
     }
