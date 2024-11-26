@@ -127,6 +127,8 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         NewReaderFrame nrf = new NewReaderFrame();
+        nrf.setTitle("New Reaer");
+        nrf.setLocationRelativeTo(null);
         nrf.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -134,6 +136,8 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         NewBookFrame nbf = new NewBookFrame();
+        nbf.setTitle("New Book");
+        nbf.setLocationRelativeTo(null);
         nbf.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -149,6 +153,8 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         LoginFrame lgf = new LoginFrame();
+        lgf.setTitle("Log in");
+        lgf.setLocationRelativeTo(null);
         lgf.setVisible(true);
         lgf.setSize(450,300);
     }//GEN-LAST:event_jButton5ActionPerformed

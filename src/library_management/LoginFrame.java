@@ -118,9 +118,11 @@ public class LoginFrame extends javax.swing.JFrame {
         String enteredPassword = jTextField2.getText();
 
         if(enteredUsername.equals("admin")&&enteredPassword.equals("admin1")){
-            JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            
             dispose();
             MainFrame mf = new MainFrame();
+            mf.setTitle("Library Management");
+            mf.setLocationRelativeTo(null);
             mf.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
