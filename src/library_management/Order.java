@@ -10,21 +10,31 @@ package library_management;
  */
 public class Order {
     private String id;
+    private String readerId;
     private String borrowDate;
     private String returnDate;
-    private Book book;
-    private int excessiveDay;
-    private int fine;
+    private String isbn;
 
-    
-    public Order(String id, String borrowDate, String returnDate, Book book) {
-        this.id = id;
+    public Order(String readerId, String borrowDate, String returnDate, String isbn) {
+        this.readerId = readerId;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
-        this.book = book;
+        this.isbn = isbn;
     }
 
     
+    public String getId() {
+        return id;
+    }
+
+    public String getReaderId() {
+        return readerId;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
     public String getBorrowDate() {
         return borrowDate;
     }
@@ -41,31 +51,4 @@ public class Order {
         this.returnDate = returnDate;
     }
     
-    public int getExcessiveDay() {
-        return excessiveDay;
-    }
-    
-    public void setExcessiveDay(int excessiveDay) {
-        this.excessiveDay = excessiveDay;
-    }
-    
-    public int getFine() {
-        return fine;
-    }
-    
-    public void setFine(int fine) {
-        this.fine = fine;
-    }
-    
-    public String getInfoOrder() {
-        return String.format(
-                "Order ID: %s\nBorrow Date: %s\nReturn Date: %s\nBook Title: %s\nExcessive Days: %d\nFine: %d",
-                id,
-                getBorrowDate(),
-                getReturnDate(),
-                book.getTitle(),
-                getExcessiveDay(),
-                getFine()
-        );
-    }
 }
