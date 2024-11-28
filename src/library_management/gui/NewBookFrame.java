@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package library_management;
+package library_management.gui;
 
 import javax.swing.JOptionPane;
 
@@ -213,6 +213,7 @@ public class NewBookFrame extends javax.swing.JFrame {
         dispose();
         MainFrame mf = new MainFrame();
         mf.setVisible(true);
+        mf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
