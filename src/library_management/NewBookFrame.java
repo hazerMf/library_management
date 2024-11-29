@@ -189,33 +189,38 @@ public class NewBookFrame extends javax.swing.JFrame {
         String author = jTextField3.getText();
         String publisher = jTextField4.getText();
         String publish_date = jTextField5.getText();
-        int copy = Integer.parseInt(jTextField6.getText());
+        String copy = jTextField6.getText();
+        
+        //check xem da co sach chua
         
         if(isbn.equals("")){
             JOptionPane.showMessageDialog(this, "ISBN can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(title.equals("")){
             JOptionPane.showMessageDialog(this, "Title can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(author.equals("")){
-            JOptionPane.showMessageDialog(this, "ISBN can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Author can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(publisher.equals("")){
             JOptionPane.showMessageDialog(this, "Publisher can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(publish_date.equals("")){
             JOptionPane.showMessageDialog(this, "Publish date can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        }else if(copy.equals("")){
+            JOptionPane.showMessageDialog(this, "Copy can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(this, "Book succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            //add book
         }
         
-        // nhap info sach
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         dispose();
-        MainFrame mf = new MainFrame();
-        mf.setVisible(true);
-        mf.setSize(854, 480);
-        mf.setLocationRelativeTo(null);
+        BookFrame bf = new BookFrame();
+        bf.setVisible(true);
+        bf.setTitle("Book");
+        bf.setSize(854, 480);
+        bf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

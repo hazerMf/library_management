@@ -74,32 +74,29 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(74, 689, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5))
-                .addGap(92, 92, 92))
+                .addGap(181, 181, 181)
+                .addComponent(jButton3)
+                .addGap(252, 252, 252)
+                .addComponent(jButton5)
+                .addContainerGap(255, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(181, 181, 181)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(160, 160, 160)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(247, 247, 247))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jButton2)
-                .addGap(48, 48, 48)
-                .addComponent(jButton1)
-                .addGap(30, 30, 30)
-                .addComponent(jButton5)
-                .addGap(57, 57, 57)
-                .addComponent(jButton3)
+                .addGap(118, 118, 118)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(112, 112, 112)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton5))
                 .addContainerGap(208, Short.MAX_VALUE))
         );
 
@@ -109,23 +106,28 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         dispose();
-        NewReaderFrame nrf = new NewReaderFrame();
-        nrf.setTitle("New Reaer");
-        nrf.setLocationRelativeTo(null);
-        nrf.setVisible(true);
+        ReaderFrame rf = new ReaderFrame();
+        rf.setTitle("Reader");
+        rf.setLocationRelativeTo(null);
+        rf.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         dispose();
-        NewBookFrame nbf = new NewBookFrame();
-        nbf.setTitle("New Book");
-        nbf.setLocationRelativeTo(null);
-        nbf.setVisible(true);
+        BookFrame bf = new BookFrame();
+        bf.setTitle("Book");
+        bf.setLocationRelativeTo(null);
+        bf.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        dispose();
+        LoanBookFrame lbf = new LoanBookFrame();
+        lbf.setTitle("Book");
+        lbf.setLocationRelativeTo(null);
+        lbf.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -133,9 +135,10 @@ public class MainFrame extends javax.swing.JFrame {
         dispose();
         LoginFrame lgf = new LoginFrame();
         lgf.setTitle("Log in");
-        lgf.setLocationRelativeTo(null);
+        
         lgf.setVisible(true);
-        lgf.setSize(450,300);
+        lgf.setSize(854,480);
+        lgf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

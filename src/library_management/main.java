@@ -90,7 +90,7 @@ public class main {
         
         
         LoginFrame lgf = new LoginFrame();
-        
+        lgf.setTitle("Log in");
         lgf.setVisible(true);
         lgf.setSize(854,480);
         lgf.setLocationRelativeTo(null);
