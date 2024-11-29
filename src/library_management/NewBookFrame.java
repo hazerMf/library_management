@@ -173,10 +173,10 @@ public class NewBookFrame extends javax.swing.JFrame {
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(49, 49, 49)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(58, 58, 58))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
         pack();
@@ -214,6 +214,7 @@ public class NewBookFrame extends javax.swing.JFrame {
         dispose();
         MainFrame mf = new MainFrame();
         mf.setVisible(true);
+        mf.setSize(854, 480);
         mf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
