@@ -88,6 +88,12 @@ public class main {
         }
         // comment5asdhaoisdn
         
+        
+        LoginFrame lgf = new LoginFrame();
+        
+        lgf.setVisible(true);
+        lgf.setSize(854,480);
+        lgf.setLocationRelativeTo(null);
     }
     
 }
