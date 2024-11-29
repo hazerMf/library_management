@@ -9,7 +9,6 @@ package library_management;
  * @author HLC_2021
  */
 public interface IUser {
-    public String getId();
     public String getName();
     public String getPhone();
     public String getEmail();

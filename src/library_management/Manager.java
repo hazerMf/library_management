@@ -6,9 +6,13 @@ package library_management;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -22,113 +26,174 @@ public class Manager extends User{
     
 
     public void addBook(Book book){
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("Book.txt", true))){
-            // Thêm sách vào file Book.txt
-            writer.write(book.getIsbn() + "," + book.getTitle() + "," + book.getAuthor()  
-                    + "," + book.getPublisher());
-            writer.newLine();
+        try {
+            ArrayList<Book> book_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
+                book_list = (ArrayList<Book>) input.readObject();
+            }
+            book_list.add(book);
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("BOOK.in"))) {
+                output.writeObject(book_list);
+            }
         }
-        catch(IOException e){
+        catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
     
-    public void deleteBook(Book book){
-        String s = book.getIsbn() + "," + book.getTitle() + "," + book.getAuthor()  
-                    + "," + book.getPublisher();
-        
-        try{
-            // Tạo ArrayList để lưu những sách không muốn xóa
-            ArrayList<String> l = new ArrayList<>();
-            try(BufferedReader reader = new BufferedReader(new FileReader("Book.txt"))){
-                String line;
-                while((line = reader.readLine()) != null){
-                    // Chỉ thêm những sách không muốn xóa
-                    if(!line.trim().equals(s)){
-                        l.add(line);
-                    }
+    public void deleteBook(String isbn){
+        try {
+            ArrayList<Book> book_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
+                book_list = (ArrayList<Book>) input.readObject();
+            }
+            for (int i = 0; i < book_list.size(); i++) {
+                if (book_list.get(i).getIsbn().equals(isbn)) {
+                    book_list.remove(i);
+                    break;
                 }
             }
-            // BufferedWriter khi không có tham số true sẽ xóa toàn bộ file cũ rồi ghi lại
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("Book.txt"))){
-                // Ghi lại những sách được lưu trong ArrayList vào file 
-                for(String i : l){
-                    writer.write(i);
-                    writer.newLine();
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("BOOK.in"))) {
+                output.writeObject(book_list);
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void addReader(Reader reader){
+        try {
+            ArrayList<Reader> reader_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
+                reader_list = (ArrayList<Reader>) input.readObject();
+            }
+            reader_list.add(reader);
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("READER.in"))) {
+                output.writeObject(reader_list);
+            }
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteReader(String id){
+        try {
+            ArrayList<Reader> reader_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
+                reader_list = (ArrayList<Reader>) input.readObject();
+            }
+            for (int i = 0; i < reader_list.size(); i++) {
+                if (reader_list.get(i).getId().equals(id)) {
+                    reader_list.remove(i);
+                    break;
                 }
             }
-        } catch(IOException e){
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("READER.in"))) {
+                output.writeObject(reader_list);
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void addOrder(Order order){
+        try {
+            ArrayList<Order> order_list;
+            ArrayList<Book> book_list;
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"));
+            order_list = (ArrayList<Order>) input.readObject();
+            input = new ObjectInputStream(new FileInputStream("BOOK.in"));
+            book_list = (ArrayList<Book>) input.readObject();
+            input.close();
+            for (Book book : book_list) {
+                if (book.getIsbn().equals(order.getIsbn())) {
+                    book.setBookNumber(book.getBookNumber() - 1);
+                    order_list.add(order);
+                }
+            }
+            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("ORDER.in"));
+            output.writeObject(order_list);
+            output = new ObjectOutputStream(new FileOutputStream("BOOK.in"));
+            output.writeObject(book_list);
+            output.close();
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteOrder(String id){
+        try {
+            ArrayList<Order> order_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))) {
+                order_list = (ArrayList<Order>) input.readObject();
+            }
+            for (int i = 0; i < order_list.size(); i++) {
+                if (order_list.get(i).getId().equals(id)) {
+                    order_list.remove(i);
+                    break;
+                }
+            }
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("ORDER.in"))) {
+                output.writeObject(order_list);
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
         
     }
     
-    public void addReader(Reader reader, String currentDate){
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("Reader.txt", true))){
-            // Thêm sách vào file Reader.txt
-            // Thêm tham số currentDate để tính tiền phạt theo ngày hiện tại
-            writer.write(reader.getId() + "," + reader.getName() + "," + reader.getPhone() + ","
-                    + reader.getEmail() + reader.getFine(currentDate));
-            writer.newLine();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    
-    public void deleteReader(Reader read, String currentDate){
-        String s = read.getId() + "," + read.getName() + "," + read.getPhone() + ","
-                    + read.getEmail() + read.getFine(currentDate);
-        
-        try{
-            // Tạo ArrayList để lưu những Người đọc không muốn xóa
-            ArrayList<String> l = new ArrayList<>();
-            try(BufferedReader reader = new BufferedReader(new FileReader("Reader.txt"))){
-                String line;
-                while((line = reader.readLine()) != null){
-                    if(!line.trim().equals(s)){
-                        l.add(line);
-                    }
-                }
-            }
-            
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reader.txt"))){
-                // Ghi lại những Người đọc được lưu trong ArrayList vào file
-                for(String i : l){
-                    writer.write(i);
-                    writer.newLine();
-                }
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-    }
     
     // Thêm tham số currentDate để hiển thị tiền phạt hiện tại
-    public void readerList(String currentDate){
-        // In ra toàn bộ danh sách Người đọc
-        try(BufferedReader read = new BufferedReader(new FileReader("Reader.txt"))){
-            String line;
-            while((line = read.readLine()) != null){
-                String a[] = line.split(",");
-                Reader reader = new Reader(a[1], a[2], a[3]);
-                System.out.println(line + " " + reader.getFine(currentDate));
+    public void readerList(){
+        try {
+            ArrayList<Reader> reader_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
+                reader_list = (ArrayList<Reader>) input.readObject();
             }
-        }
-        catch(IOException e){
+            for (Reader reader : reader_list) {
+                System.out.printf("%s %s %s %s %d", reader.getId(), reader.getName(), reader.getPhone(), reader.getEmail(), reader.getFine());
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
     
     public void bookList(){
         // In ra toàn bộ danh sách cuốn sách
-        try(BufferedReader read = new BufferedReader(new FileReader("Book.txt"))){
-            String line;
-            while((line = read.readLine()) != null){
-                System.out.println(line);
+        try {
+            ArrayList<Book> book_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
+                book_list = (ArrayList<Book>) input.readObject();
             }
+            for (Book book : book_list) {
+                System.out.printf("%s %s %s %s %d", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
         }
-        catch(IOException e){
+    }
+    
+    
+    
+    public void orderList(){
+        // In ra toàn bộ danh sách đơn mượn
+        try {
+            ArrayList<Order> order_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))) {
+                order_list = (ArrayList<Order>) input.readObject();
+            }
+            for (Order order : order_list) {
+                System.out.printf("%s %s %s %s %s", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }

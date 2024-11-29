@@ -4,18 +4,22 @@
  */
 package library_management;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HLC_2021
  */
-public class Order {
+public class Order implements Serializable {
     private String id;
     private String readerId;
     private String borrowDate;
     private String returnDate;
     private String isbn;
+    private static int idCounter = 1;
 
     public Order(String readerId, String borrowDate, String returnDate, String isbn) {
+        this.id = String.format("O%d", idCounter++);
         this.readerId = readerId;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;

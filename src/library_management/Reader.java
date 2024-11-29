@@ -22,13 +22,19 @@ import java.util.Date;
  */
 public class Reader extends User {
     private int fine;
+    private String id;
+    private static int idCounter = 1;
 
     public Reader(String name, String phone, String email) {
         super(name, phone, email);
+        this.id = String.format("R%d", idCounter++);
     }
 
-    
-    public int getFine(String currentDate) {
+    public String getId() {
+        return id;
+    }
+
+    public int getFine() {
         fine = 0;
         try(ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))){
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -57,59 +63,5 @@ public class Reader extends User {
 
     public void setFine(int fine) {
         this.fine = fine;
-    }
-
-    public void addOrder(Order order){
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("Order.txt", true))){
-            writer.write(order.getId() + " " + order.getIsbn() + " " + order.getBorrowDate() 
-                    + " " + order.getReturnDate() + " " + order.getReaderId());
-            writer.newLine();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    
-    public void deleteOrder(Order order){
-        String s = order.getId() + " " + order.getIsbn() + " " + order.getBorrowDate() 
-                    + " " + order.getReturnDate() + " " + order.getReaderId();
-        
-        try{
-            // Tạo ArrayList để lưu những đơn mượn không muốn xóa
-            ArrayList<String> l = new ArrayList<>();
-            try(BufferedReader reader = new BufferedReader(new FileReader("Order.txt"))){
-                String line;
-                while((line = reader.readLine()) != null){
-                    // Chỉ thêm những sách không muốn xóa
-                    if(!line.trim().equals(s)){
-                        l.add(line);
-                    }
-                }
-            }
-            // BufferedWriter khi không có tham số true sẽ xóa toàn bộ file cũ rồi ghi lại
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("Book.txt"))){
-                // Ghi lại những đơn mượn được lưu trong ArrayList vào file 
-                for(String i : l){
-                    writer.write(i);
-                    writer.newLine();
-                }
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        
-    }
-    
-    public void orderList(){
-        // In ra toàn bộ danh sách đơn mượn
-        try(BufferedReader read = new BufferedReader(new FileReader("Order.txt"))){
-            String line;
-            while((line = read.readLine()) != null){
-                System.out.println(line);
-            }
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
     }
 }

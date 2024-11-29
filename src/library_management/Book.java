@@ -4,11 +4,13 @@
  */
 package library_management;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HLC_2021
  */
-public class Book {
+public class Book implements Serializable {
     private final String isbn;
     private final String title;
     private final String author;
@@ -23,7 +25,14 @@ public class Book {
         this.publisher = publisher;
     }
 
-    
+    public int getBookNumber() {
+        return bookNumber;
+    }
+
+    public void setBookNumber(int bookNumber) {
+        this.bookNumber = bookNumber;
+    }
+
     public String getIsbn() {
         return isbn;
     }
