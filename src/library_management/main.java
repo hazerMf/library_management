@@ -179,6 +179,12 @@ public class main {
 //        
 //        System.out.println("Fine After Inputting order: " + read.getFine());
         
+        
+        LoginFrame lgf = new LoginFrame();
+        lgf.setTitle("Log in");
+        lgf.setVisible(true);
+        lgf.setSize(854,480);
+        lgf.setLocationRelativeTo(null);
     }
     
 }

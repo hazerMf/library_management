@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package library_management.gui;
+package library_management;
 
 import javax.swing.JOptionPane;
 
@@ -109,7 +109,7 @@ public class NewReaderFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 500, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +160,7 @@ public class NewReaderFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,6 +182,8 @@ public class NewReaderFrame extends javax.swing.JFrame {
         String email = jTextField4.getText();
         String address = jTextField5.getText();
         
+        //check xem da co reader chua
+        
         if(id.equals("")){
             JOptionPane.showMessageDialog(this, "ID can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(name.equals("")){
@@ -190,6 +192,7 @@ public class NewReaderFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ISBN can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(this, "Reader succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            //add reader
         }
         
         // nhap info reader
@@ -199,10 +202,10 @@ public class NewReaderFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         dispose();
-        MainFrame mf = new MainFrame();
-        mf.setTitle("Library Management");
-        mf.setLocationRelativeTo(null);
-        mf.setVisible(true);
+        ReaderFrame rf = new ReaderFrame();
+        rf.setTitle("Library Management");
+        rf.setLocationRelativeTo(null);
+        rf.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
