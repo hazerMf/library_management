@@ -2,9 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package library_management;
+package library_management.gui;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import library_management.gui.LoanBookFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import library_management.Manager;
+import library_management.Order;
 
 /**
  *
@@ -17,7 +25,69 @@ public class ReturnBookFrame extends javax.swing.JFrame {
      */
     public ReturnBookFrame() {
         initComponents();
+        showAll();
     }
+    
+    private ArrayList<Order> order_list;
+    private DefaultTableModel model;
+     
+    
+     
+    public static ArrayList<Order> readOrdersFromFile(String fileName) {
+        ArrayList<Order> orders = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            orders = (ArrayList<Order>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    private boolean checkOrder(String s){
+        order_list = readOrdersFromFile("ORDER.in");
+        for(Order i : order_list){
+            if(i.getId().equals(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private void showAll(){
+        order_list = new ArrayList<>();
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        allOrder();
+    }
+    
+    private void showOne(String s){
+        order_list = new ArrayList<>();
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        oneOrder(s);
+    }
+    
+    private void allOrder(){
+        order_list = readOrdersFromFile("ORDER.in");
+        for(Order i : order_list){
+            model.addRow(new Object[]{
+                i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn()
+            });
+        }
+    }
+    
+    private void oneOrder(String s){
+        order_list = readOrdersFromFile("ORDER.in");
+        for(Order i : order_list){
+            if(i.getId().equals(s)){
+                model.addRow(new Object[]{
+                    i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn()
+                });
+            }
+        }
+    }
+    
+    Manager m = new Manager("","","");
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,11 +103,12 @@ public class ReturnBookFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jButton2.setText("Go back");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -57,16 +128,31 @@ public class ReturnBookFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
         jButton3.setText("Return book");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Loan ID", "Reader ID", "Borrow Date", "Return Date", "ISBN"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,23 +161,26 @@ public class ReturnBookFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(jLabel2)
-                        .addGap(167, 167, 167)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabel2)
+                                .addGap(167, 167, 167)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(332, 332, 332)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(190, 190, 190)
+                                .addComponent(jButton2)))
+                        .addGap(157, 157, 157)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(jButton1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(190, 190, 190)
-                        .addComponent(jButton2)))
-                .addGap(157, 157, 157)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1))
-                .addContainerGap(179, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,9 +192,9 @@ public class ReturnBookFrame extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(55, 55, 55)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
@@ -131,6 +220,14 @@ public class ReturnBookFrame extends javax.swing.JFrame {
         
         if(id.equals("")){
             JOptionPane.showMessageDialog(this, "Loan ID can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(!checkOrder(id)){
+                JOptionPane.showMessageDialog(this, "Loan ID not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Book succesfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                m.deleteOrder(id);
+                showAll();
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -139,9 +236,14 @@ public class ReturnBookFrame extends javax.swing.JFrame {
         String id = jTextField1.getText();
         
         if(id.equals("")){
-            JOptionPane.showMessageDialog(this, "Loan ID can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            showAll();
         }else{
             //show loan info
+            if(!checkOrder(id)){
+                JOptionPane.showMessageDialog(this, "Loan ID not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                showOne(id);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -187,7 +289,7 @@ public class ReturnBookFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

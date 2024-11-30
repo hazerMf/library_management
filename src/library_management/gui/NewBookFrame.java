@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package library_management;
+package library_management.gui;
 
+import library_management.gui.BookFrame;
 import javax.swing.JOptionPane;
+import library_management.Book;
+import library_management.Manager;
 
 /**
  *
@@ -18,6 +21,8 @@ public class NewBookFrame extends javax.swing.JFrame {
     public NewBookFrame() {
         initComponents();
     }
+    
+    Manager m = new Manager("","","");
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -208,6 +213,15 @@ public class NewBookFrame extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(this, "Book succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
             //add book
+            Book b = new Book(isbn, title, author, publisher);
+            b.setBookNumber(Integer.parseInt(copy));
+            m.addBook(b);
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+            jTextField5.setText("");
+            jTextField6.setText("");
         }
         
         

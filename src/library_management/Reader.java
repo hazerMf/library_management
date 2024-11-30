@@ -22,7 +22,7 @@ public class Reader extends User {
 
     public Reader(String name, String phone, String email) {
         super(name, phone, email);
-        this.id = String.format("R%d", idCounter++);
+        this.id = String.format("R%02d", idCounter++);
     }
 
     public String getId() {

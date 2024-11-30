@@ -2,9 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package library_management;
+package library_management.gui;
 
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import library_management.Book;
+import library_management.Manager;
+import library_management.Order;
+import library_management.Reader;
+
 
 /**
  *
@@ -17,8 +27,62 @@ public class NewLoanOrder extends javax.swing.JFrame {
      */
     public NewLoanOrder() {
         initComponents();
+        allBook();
+        allReader();
     }
 
+    private ArrayList<String> book_id = new ArrayList<>();
+    private ArrayList<String> reader_id = new ArrayList<>();
+    private ArrayList<Book> book_list;
+    private ArrayList<Reader> reader_list;
+    
+    public static ArrayList<Book> readBooksFromFile(String fileName) {
+        ArrayList<Book> books = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            books = (ArrayList<Book>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+    
+    public static ArrayList<Reader> readReadersFromFile(String fileName) {
+        ArrayList<Reader> readers = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            readers = (ArrayList<Reader>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return readers;
+    }
+    
+    private void allBook(){
+        book_list = readBooksFromFile("BOOK.in");
+        for(Book i : book_list){
+            book_id.add(i.getIsbn());
+        }
+    }
+    
+    private void allReader(){
+        reader_list = readReadersFromFile("READER.in");
+        for(Reader i : reader_list){
+            reader_id.add(i.getId());
+        }
+    }
+    
+    private boolean checkCopy(String s){
+        book_list = readBooksFromFile("BOOK.in");
+        for(Book i : book_list){
+            if(i.getIsbn().equals(s)){
+                if(i.getBookNumber()==0) return false;
+                else return true;
+            }
+        }
+        return true;
+    }
+    
+    Manager m = new Manager("","","");
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,8 +99,13 @@ public class NewLoanOrder extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("New Loan Order");
 
@@ -58,6 +127,10 @@ public class NewLoanOrder extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Borrow Date");
+
+        jLabel5.setText("Return Date");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,20 +144,25 @@ public class NewLoanOrder extends javax.swing.JFrame {
                         .addGap(91, 91, 91)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(173, 173, 173)
-                                .addComponent(jTextField2))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(177, 177, 177)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(204, 204, 204)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(282, 282, 282))
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(jButton2)
+                        .addGap(189, 189, 189)
+                        .addComponent(jButton1)))
+                .addContainerGap(276, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,15 +173,23 @@ public class NewLoanOrder extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(124, 124, 124))
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addGap(57, 57, 57))
         );
 
         pack();
@@ -112,14 +198,36 @@ public class NewLoanOrder extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String id = jTextField1.getText();
-        String isbn = jTextField1.getText();
+        String bDate = jTextField2.getText();
+        String rDate = jTextField3.getText();
+        String isbn = jTextField4.getText();
         
         if(id.equals("")){
             JOptionPane.showMessageDialog(this, "ID can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(isbn.equals("")){
             JOptionPane.showMessageDialog(this, "ISBN can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        }else if(bDate.equals("")){
+            JOptionPane.showMessageDialog(this, "Borrow Date can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        }else if(rDate.equals("")){
+            JOptionPane.showMessageDialog(this, "Return Date can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             //create loan order infomation
+            
+            if(!book_id.contains(isbn)){
+                JOptionPane.showMessageDialog(this, "Book not exists.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else if(!reader_id.contains(id)){
+                JOptionPane.showMessageDialog(this, "Reader not exists.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else if(!checkCopy(isbn)){
+                JOptionPane.showMessageDialog(this, "Book copy insufficient.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                m.addOrder(new Order(id,bDate,rDate,isbn));
+                JOptionPane.showMessageDialog(this, "Order succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                jTextField1.setText("");
+                jTextField2.setText("");
+                jTextField3.setText("");
+                jTextField4.setText("");
+            }
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -174,7 +282,11 @@ public class NewLoanOrder extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

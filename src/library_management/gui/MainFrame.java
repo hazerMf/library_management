@@ -2,7 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package library_management;
+package library_management.gui;
+
+import library_management.gui.ReaderFrame;
+import library_management.gui.LoginFrame;
+import library_management.gui.LoanBookFrame;
+import library_management.gui.BookFrame;
 
 /**
  *
@@ -127,7 +132,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         LoanBookFrame lbf = new LoanBookFrame();
-        lbf.setTitle("Book");
+        lbf.setTitle("Loan");
         lbf.setLocationRelativeTo(null);
         lbf.setVisible(true);
         lbf.setResizable(false);

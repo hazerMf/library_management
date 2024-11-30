@@ -196,20 +196,18 @@ public class Manager extends User{
         }
     }
     
-    public void bookList(){
+    public ArrayList<Book> bookList(){
         // In ra toàn bộ danh sách cuốn sách
+        ArrayList<Book> book_list = null;
         try {
-            ArrayList<Book> book_list;
             try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
                 book_list = (ArrayList<Book>) input.readObject();
-            }
-            for (Book book : book_list) {
-                System.out.printf("%s %s %s %s %d\n", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
             }
         } 
         catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
+        return book_list;
     }
     
     public void bookInfo(String isbn){
@@ -283,20 +281,5 @@ public class Manager extends User{
         }
     }
     
-    public void orderInfo(String id){
-        try {
-            ArrayList<Order> order_list;
-            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))) {
-                order_list = (ArrayList<Order>) input.readObject();
-            }
-            for (Order order : order_list) {
-                if(id.equals(order.getId())){
-                    System.out.printf("%s %s %s %s %s", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
-                }
-            }
-        } 
-        catch(IOException | ClassNotFoundException e){
-            e.printStackTrace();
-        }
-    }
+    
 }
