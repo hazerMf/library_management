@@ -164,6 +164,26 @@ public class Manager extends User{
         }
     }
     
+    public void readerInfo(String id){
+        // In ra toàn bộ danh sách cuốn sách
+        try {
+            ArrayList<Reader> reader_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
+                reader_list = (ArrayList<Reader>) input.readObject();
+            }
+            for (Reader reader : reader_list) {
+                if(reader.getId().equals(id)){
+                    System.out.printf("%s %s %s %s %d", reader.getId(), reader.getName(), reader.getPhone(), reader.getEmail(), reader.getFine());
+                }
+                return;
+            }
+            System.out.println("Reader not found!");
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
     public void bookList(){
         // In ra toàn bộ danh sách cuốn sách
         try {
@@ -180,7 +200,25 @@ public class Manager extends User{
         }
     }
     
-    
+    public void bookInfo(String isbn){
+        // In ra toàn bộ danh sách cuốn sách
+        try {
+            ArrayList<Book> book_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
+                book_list = (ArrayList<Book>) input.readObject();
+            }
+            for (Book book : book_list) {
+                if(book.getIsbn().equals(isbn)){
+                    System.out.printf("%s %s %s %s %d", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
+                }
+                return;
+            }
+            System.out.println("Book not found!");
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
     
     public void orderList(){
         // In ra toàn bộ danh sách đơn mượn
@@ -191,6 +229,23 @@ public class Manager extends User{
             }
             for (Order order : order_list) {
                 System.out.printf("%s %s %s %s %s", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void orderInfo(String id){
+        try {
+            ArrayList<Order> order_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))) {
+                order_list = (ArrayList<Order>) input.readObject();
+            }
+            for (Order order : order_list) {
+                if(id.equals(order.getId())){
+                    System.out.printf("%s %s %s %s %s", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
+                }
             }
         } 
         catch(IOException | ClassNotFoundException e){
