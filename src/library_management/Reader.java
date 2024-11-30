@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package library_management;
 
 import java.io.BufferedReader;
@@ -13,13 +9,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- *
- * @author HLC_2021
- */
 public class Reader extends User {
     private int fine;
     private String id;
@@ -37,20 +32,15 @@ public class Reader extends User {
     public int getFine() {
         fine = 0;
         try(ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))){
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             ArrayList<Order> orders = (ArrayList<Order>) input.readObject();
             for (Order order : orders) {
                 if (order.getReaderId().equals(this.getId())) {
-                    try {
-                        Date current = new Date();
-                        Date reDate = sdf.parse(order.getReturnDate());
-
-                        int distance = (int) ((current.getTime() - reDate.getTime()) / (1000 * 60 * 60 * 24));
-                        if(distance > 0) {
-                            fine += distance * 10000;
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    LocalDate currentDate = LocalDate.now();
+                    LocalDate returnDate = LocalDate.parse(order.getReturnDate(), formatter);
+                    long daysLate = ChronoUnit.DAYS.between(returnDate, currentDate);
+                    if (daysLate > 0) {
+                        fine += daysLate * 10000;
                     }
                 }
             }

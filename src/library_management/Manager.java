@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package library_management;
 
 import java.io.BufferedReader;
@@ -15,16 +11,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-/**
- *
- * @author HLC_2021
- */
 public class Manager extends User{
     public Manager(String name, String phone, String email) {
         super(name, phone, email);
     }
     
-
     public void addBook(Book book){
         try {
             ArrayList<Book> book_list;
@@ -128,26 +119,47 @@ public class Manager extends User{
     public void deleteOrder(String id){
         try {
             ArrayList<Order> order_list;
+            ArrayList<Book> book_list;
+
             try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))) {
                 order_list = (ArrayList<Order>) input.readObject();
             }
-            for (int i = 0; i < order_list.size(); i++) {
-                if (order_list.get(i).getId().equals(id)) {
-                    order_list.remove(i);
+
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
+                book_list = (ArrayList<Book>) input.readObject();
+            }
+
+            Order orderToDelete = null;
+            for (Order order : order_list) {
+                if (order.getId().equals(id)) {
+                    orderToDelete = order;
                     break;
                 }
             }
-            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("ORDER.in"))) {
-                output.writeObject(order_list);
+
+            if (orderToDelete != null) {
+                for (Book book : book_list) {
+                    if (book.getIsbn().equals(orderToDelete.getIsbn())) {
+                        book.setBookNumber(book.getBookNumber() + 1);
+                        break;
+                    }
+                }
+
+                order_list.remove(orderToDelete);
+
+                try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("BOOK.in"))) {
+                    output.writeObject(book_list);
+                }
+
+                try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("ORDER.in"))) {
+                    output.writeObject(order_list);
+                }
             }
-        } 
-        catch(IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
     }
-    
-    
+        
     // Thêm tham số currentDate để hiển thị tiền phạt hiện tại
     public void readerList(){
         try {
@@ -156,7 +168,7 @@ public class Manager extends User{
                 reader_list = (ArrayList<Reader>) input.readObject();
             }
             for (Reader reader : reader_list) {
-                System.out.printf("%s %s %s %s %d", reader.getId(), reader.getName(), reader.getPhone(), reader.getEmail(), reader.getFine());
+                System.out.printf("%s %s %s %s %d\n", reader.getId(), reader.getName(), reader.getPhone(), reader.getEmail(), reader.getFine());
             }
         } 
         catch(IOException | ClassNotFoundException e){
@@ -192,7 +204,7 @@ public class Manager extends User{
                 book_list = (ArrayList<Book>) input.readObject();
             }
             for (Book book : book_list) {
-                System.out.printf("%s %s %s %s %d", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
+                System.out.printf("%s %s %s %s %d\n", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
             }
         } 
         catch(IOException | ClassNotFoundException e){
@@ -228,7 +240,42 @@ public class Manager extends User{
                 order_list = (ArrayList<Order>) input.readObject();
             }
             for (Order order : order_list) {
-                System.out.printf("%s %s %s %s %s", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
+                System.out.printf("%s %s %s %s %s\n", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void searchBook(String title){
+        try {
+            ArrayList<Book> book_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
+                book_list = (ArrayList<Book>) input.readObject();
+            }
+            
+            for (Book book : book_list) {
+                if(book.getTitle().equals(title)){
+                    System.out.printf("%s %s %s %s %d\n", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
+                }
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void orderInfo(String id){
+        try {
+            ArrayList<Order> order_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))) {
+                order_list = (ArrayList<Order>) input.readObject();
+            }
+            for (Order order : order_list) {
+                if(id.equals(order.getId())){
+                    System.out.printf("%s %s %s %s %s", order.getId(), order.getReaderId(), order.getBorrowDate(), order.getReturnDate(), order.getIsbn());
+                }
             }
         } 
         catch(IOException | ClassNotFoundException e){

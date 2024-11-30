@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package library_management;
 
 import java.io.FileInputStream;
@@ -15,18 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- *
- * @author ADMIN
- */
 public class main {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.io.FileNotFoundException
-     */
     public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
-        // TODO code application logic here
 //        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("READER.in"));
 //        ArrayList<Reader> test = new ArrayList<>();
 //        output.writeObject(test);
@@ -186,6 +173,93 @@ public class main {
         lgf.setSize(854,480);
         lgf.setResizable(false);
         lgf.setLocationRelativeTo(null);
+
+//        LoginFrame lgf = new LoginFrame();
+//        lgf.setTitle("Log in");
+//        lgf.setVisible(true);
+//        lgf.setSize(854,480);
+//        lgf.setLocationRelativeTo(null);
+
+          Manager admin = new Manager("Nguyen Tuan Minh", "0367305736", "gemeuacong2907@gmail.com");
+          // test add Book
+//          Book b1 = new Book("000-001", "Qua den", "Nguyen Tuan Minh", "Kim Dong");
+//          b1.setBookNumber(10);
+//          Book b2 = new Book("000-002", "Toan 12", "Quang Hai", "Bo giao duc");
+//          b2.setBookNumber(20);
+//          Book b3 = new Book("000-003", "So tay Sinh vien", "Ngo Ha", "Hoc vien Ptit");
+//          b3.setBookNumber(1000);
+//          
+//          admin.addBook(b1);
+//          admin.addBook(b2);
+//          admin.addBook(b3);
+//          admin.bookList();
+          
+          //Test delete Book
+//          admin.deleteBook("000-002");
+//          admin.bookList();
+          
+            //Test add Reader
+//          Reader r1 = new Reader("Nguyen Viet Hoang", "0123456789", "vh2004@gmail.com");
+//          Reader r2 = new Reader("Tran Tuan Cuong", "0987654321", "tc1292@gmail.com");
+//          Reader r3 = new Reader("Tran Minh Hieu", "012122332", "mh9826@gmail.com");
+//          Reader r4 = new Reader("Ngo Ba Kha", "909384932", "bk@gmail.com");
+//          admin.addReader(r1);
+//          admin.addReader(r2);
+//          admin.addReader(r3);
+//          admin.addReader(r4);
+//          admin.readerList();
+          
+          //Test delete Reader
+//          admin.deleteReader("R1");
+//          admin.readerList();
+          
+            //Test add Order
+//          Order o1 = new Order("R2", "20/11/2024", "27/11/2024", "000-001");
+//          Order o2 = new Order("R2", "19/11/2024", "26/11/2024", "000-003");
+//          Order o3 = new Order("R4", "11/11/2024", "24/11/2024", "000-001");
+//          Order o4 = new Order("R5", "12/11/2024", "29/11/2024", "000-003");
+//          admin.addOrder(o1);
+//          admin.addOrder(o2);
+//          admin.addOrder(o3);
+//          admin.addOrder(o4);
+//          admin.orderList();
+//          admin.bookList();
+          
+          //Test delete Order
+//          admin.deleteOrder("O3");
+//          admin.orderList();
+//          admin.bookList();
+          
+          //Test so sanh khi da add, deleteOrder
+//          admin.deleteOrder("O4");
+//          admin.orderList();
+//          admin.bookList();
+          
+          //Test getFine
+//          admin.readerList();
+    
+//          ArrayList<Book> l = new ArrayList<>();
+//          ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("BOOK.in"));
+//          out.writeObject(l);
+//          admin.bookList();
+
+        //Reset file Reader
+//        ArrayList<Reader> l = new ArrayList<>();
+//        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("READER.in"));
+//        out.writeObject(l);
+//        admin.readerList();
+        
+        //Reset file Order
+//        ArrayList<Order> l = new ArrayList<>();
+//        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Order.in"));
+//        out.writeObject(l);
+//        admin.orderList();
+
+        //Test ham search book bang title
+        admin.bookList();
+        System.out.println("Tim sach :");
+        admin.searchBook("Qua den");
+
     }
     
 }

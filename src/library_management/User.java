@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package library_management;
 
 import java.io.Serializable;
 
-/**
- *
- * @author HLC_2021
- */
 public class User implements IUser, Serializable {
     private String name;
     private String phone;
