@@ -206,6 +206,7 @@ public class NewReaderFrame extends javax.swing.JFrame {
         rf.setTitle("Library Management");
         rf.setLocationRelativeTo(null);
         rf.setVisible(true);
+        rf.setResizable(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed

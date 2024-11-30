@@ -130,6 +130,7 @@ public class BookFrame extends javax.swing.JFrame {
         mf.setVisible(true);
         mf.setTitle("Library Management");
         mf.setSize(854, 480);
+        mf.setResizable(false);
         mf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -140,6 +141,7 @@ public class BookFrame extends javax.swing.JFrame {
         nbf.setTitle("New Book");
         nbf.setLocationRelativeTo(null);
         nbf.setVisible(true);
+        nbf.setResizable(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

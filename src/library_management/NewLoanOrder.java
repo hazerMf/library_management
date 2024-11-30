@@ -130,6 +130,7 @@ public class NewLoanOrder extends javax.swing.JFrame {
         lbf.setTitle("Book");
         lbf.setLocationRelativeTo(null);
         lbf.setVisible(true);
+        lbf.setResizable(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

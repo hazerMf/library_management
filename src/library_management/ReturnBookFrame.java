@@ -122,6 +122,7 @@ public class ReturnBookFrame extends javax.swing.JFrame {
         lbf.setTitle("Library Management");
         lbf.setLocationRelativeTo(null);
         lbf.setVisible(true);
+        lbf.setResizable(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

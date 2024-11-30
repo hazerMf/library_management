@@ -128,6 +128,7 @@ public class ReaderFrame extends javax.swing.JFrame {
         mf.setSize(854, 480);
         mf.setTitle("Library Management");
         mf.setLocationRelativeTo(null);
+        mf.setResizable(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -137,6 +138,7 @@ public class ReaderFrame extends javax.swing.JFrame {
         nrf.setTitle("New Book");
         nrf.setLocationRelativeTo(null);
         nrf.setVisible(true);
+        nrf.setResizable(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

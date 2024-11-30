@@ -184,6 +184,7 @@ public class main {
         lgf.setTitle("Log in");
         lgf.setVisible(true);
         lgf.setSize(854,480);
+        lgf.setResizable(false);
         lgf.setLocationRelativeTo(null);
     }
     

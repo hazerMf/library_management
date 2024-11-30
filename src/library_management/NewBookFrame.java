@@ -219,6 +219,7 @@ public class NewBookFrame extends javax.swing.JFrame {
         BookFrame bf = new BookFrame();
         bf.setVisible(true);
         bf.setTitle("Book");
+        bf.setResizable(false);
         bf.setSize(854, 480);
         bf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed

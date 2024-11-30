@@ -78,7 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(252, 252, 252)
                 .addComponent(jButton5)
-                .addContainerGap(255, Short.MAX_VALUE))
+                .addContainerGap(259, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(160, 160, 160)
                 .addComponent(jButton1)
@@ -97,7 +97,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton5))
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,6 +110,7 @@ public class MainFrame extends javax.swing.JFrame {
         rf.setTitle("Reader");
         rf.setLocationRelativeTo(null);
         rf.setVisible(true);
+        rf.setResizable(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -119,6 +120,7 @@ public class MainFrame extends javax.swing.JFrame {
         bf.setTitle("Book");
         bf.setLocationRelativeTo(null);
         bf.setVisible(true);
+        bf.setResizable(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -128,6 +130,7 @@ public class MainFrame extends javax.swing.JFrame {
         lbf.setTitle("Book");
         lbf.setLocationRelativeTo(null);
         lbf.setVisible(true);
+        lbf.setResizable(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -135,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
         dispose();
         LoginFrame lgf = new LoginFrame();
         lgf.setTitle("Log in");
-        
+        lgf.setResizable(false);
         lgf.setVisible(true);
         lgf.setSize(854,480);
         lgf.setLocationRelativeTo(null);

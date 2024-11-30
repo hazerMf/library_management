@@ -65,6 +65,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/library_management/library.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -127,6 +128,7 @@ public class LoginFrame extends javax.swing.JFrame {
             mf.setTitle("Library Management");
             mf.setLocationRelativeTo(null);
             mf.setVisible(true);
+            mf.setResizable(false);
         }else{
             JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
         }
