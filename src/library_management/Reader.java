@@ -50,6 +50,28 @@ public class Reader extends User {
         }
         return fine;
     }
+    
+    public int getFineOrder(String orderId) {
+        int fineOrder = 0;
+        try(ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            ArrayList<Order> orders = (ArrayList<Order>) input.readObject();
+            for (Order order : orders) {
+                if (order.getReaderId().equals(this.getId()) && orderId.equals(order.getId())) {
+                    LocalDate currentDate = LocalDate.now();
+                    LocalDate returnDate = LocalDate.parse(order.getReturnDate(), formatter);
+                    long daysLate = ChronoUnit.DAYS.between(returnDate, currentDate);
+                    if (daysLate > 0) {
+                        fineOrder += daysLate * 10000;
+                    }
+                }
+            }
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return fineOrder;
+    }
 
     public void setFine(int fine) {
         this.fine = fine;

@@ -203,6 +203,9 @@ public class Manager extends User{
             try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("BOOK.in"))) {
                 book_list = (ArrayList<Book>) input.readObject();
             }
+            for (Book book : book_list) {
+                System.out.printf("%s %s %s %s %d\n", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getBookNumber());
+            }
         } 
         catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
@@ -281,5 +284,22 @@ public class Manager extends User{
         }
     }
     
+      public Reader getReaderById(String readerId){
+        try{
+            ArrayList<Reader> readerList;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
+                readerList = (ArrayList<Reader>) input.readObject();
+            }
+            for (Reader reader : readerList) {
+                if (reader.getId().equals(readerId)) {
+                    return reader;
+                }
+            }
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    } 
     
 }
