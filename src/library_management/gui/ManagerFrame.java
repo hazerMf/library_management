@@ -15,9 +15,10 @@ public class ManagerFrame extends javax.swing.JFrame {
         initComponents();
         showAll();
     }
+    Manager m = new Manager("", "", "");
     
-    private ArrayList<Manager> manager_list;
-    private ArrayList<String> manager_id;
+    private ArrayList<Manager> manager_list = m.managerList();
+    private ArrayList<String> manager_id = m.managerIdList();
     private DefaultTableModel model;
 
     private boolean checkManager(String s){
