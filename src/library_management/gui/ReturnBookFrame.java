@@ -31,47 +31,18 @@ public class ReturnBookFrame extends javax.swing.JFrame {
     
     Manager m = new Manager("","","");
     
-    private ArrayList<Order> order_list;
+    private ArrayList<Order> order_list = m.orderList();
+    private ArrayList<String> order_id = m.orderIdList();
     private DefaultTableModel model;
-     
-    
-     
-    public static ArrayList<Order> readOrdersFromFile(String fileName) {
-        ArrayList<Order> orders = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            orders = (ArrayList<Order>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
 
     private boolean checkOrder(String s){
-        order_list = readOrdersFromFile("ORDER.in");
-        for(Order i : order_list){
-            if(i.getId().equals(s)){
-                return true;
-            }
-        }
+        if(order_id.contains(s)) return true;
         return false;
     }
     
     private void showAll(){
-        order_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        allOrder();
-    }
-    
-    private void showOne(String s){
-        order_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-        oneOrder(s);
-    }
-    
-    private void allOrder(){
-        order_list = readOrdersFromFile("ORDER.in");
         for(Order i : order_list){
             Reader temp = m.getReaderById(i.getReaderId());
             model.addRow(new Object[]{
@@ -80,8 +51,9 @@ public class ReturnBookFrame extends javax.swing.JFrame {
         }
     }
     
-    private void oneOrder(String s){
-        order_list = readOrdersFromFile("ORDER.in");
+    private void showOne(String s){
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
         for(Order i : order_list){
             if(i.getId().equals(s)){
                 Reader temp = m.getReaderById(i.getReaderId());
@@ -91,7 +63,7 @@ public class ReturnBookFrame extends javax.swing.JFrame {
             }
         }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

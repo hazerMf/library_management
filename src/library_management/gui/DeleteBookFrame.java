@@ -28,36 +28,14 @@ public class DeleteBookFrame extends javax.swing.JFrame {
     }
     
     Manager m = new Manager("","","");
-
-    private ArrayList<Book> book_list;
+    
+    private ArrayList<String> book_id = m.bookIsbnList();
+    private ArrayList<Book> book_list = m.bookList();
     private DefaultTableModel model;
-     
-    public static ArrayList<Book> readBooksFromFile(String fileName) {
-        ArrayList<Book> books = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            books = (ArrayList<Book>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
-
+    
     private void showAll(){
-        book_list = new ArrayList<>();
         model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        allBook();
-    }
-    
-    private void showOne(String s){
-        book_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        oneBook(s);
-    }
-    
-    private void allBook(){
-        book_list = readBooksFromFile("BOOK.in");
         for(Book i : book_list){
             model.addRow(new Object[]{
                 i.getIsbn(), i.getTitle(), i.getAuthor(), i.getPublisher(), i.getBookNumber()
@@ -65,8 +43,9 @@ public class DeleteBookFrame extends javax.swing.JFrame {
         }
     }
     
-    private void oneBook(String s){
-        book_list = readBooksFromFile("BOOK.in");
+    private void showOne(String s){
+        model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
         for(Book i : book_list){
             if(i.getIsbn().equals(s)){
                 model.addRow(new Object[]{

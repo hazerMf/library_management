@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import library_management.gui.NewReaderFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import library_management.Manager;
 import library_management.Reader;
 
 public class ReaderFrame extends javax.swing.JFrame {
@@ -15,46 +16,21 @@ public class ReaderFrame extends javax.swing.JFrame {
         initComponents();
         showAll();
     }
+    
+    Manager m = new Manager("","","");
 
-    private ArrayList<Reader> reader_list;
+    private ArrayList<Reader> reader_list = m.readerList();
+    private ArrayList<String> reader_id = m.readerIdList();
     private DefaultTableModel model;
-     
-    public static ArrayList<Reader> readReadersFromFile(String fileName) {
-        ArrayList<Reader> readers = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            readers = (ArrayList<Reader>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return readers;
-    }
 
     private boolean checkReader(String s){
-        reader_list = readReadersFromFile("READER.in");
-        for(Reader i : reader_list){
-            if(i.getId().equals(s)){
-                return true;
-            }
-        }
+        if(reader_id.contains(s)) return true;
         return false;
     }
     
     private void showAll(){
-        reader_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        allReader();
-    }
-    
-    private void showOne(String s){
-        reader_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-        oneReader(s);
-    }
-    
-    private void allReader(){
-        reader_list = readReadersFromFile("READER.in");
         for(Reader i : reader_list){
             model.addRow(new Object[]{
                 i.getId(), i.getName(), i.getPhone(), i.getEmail()
@@ -62,8 +38,9 @@ public class ReaderFrame extends javax.swing.JFrame {
         }
     }
     
-    private void oneReader(String s){
-        reader_list = readReadersFromFile("READER.in");
+    private void showOne(String s){
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
         for(Reader i : reader_list){
             if(i.getId().equals(s)){
                 model.addRow(new Object[]{

@@ -22,6 +22,8 @@ public class main {
         lgf.setResizable(false);
         lgf.setLocationRelativeTo(null);
         
+        
+        
 //        Manager m = new Manager("", "", "");
 //        System.out.println("Danh sach sach: ");
 //        m.bookList();

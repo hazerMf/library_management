@@ -24,31 +24,11 @@ public class NewBookFrame extends javax.swing.JFrame {
      */
     public NewBookFrame() {
         initComponents();
-        bookIdList();
     }
     
     Manager m = new Manager("","","");
-    
-    private ArrayList<Book> book_list = readBooksFromFile("BOOK.in");
-    
-    public static ArrayList<Book> readBooksFromFile(String fileName) {
-        ArrayList<Book> books = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            books = (ArrayList<Book>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
 
-    
-    private ArrayList<String> book_id = new ArrayList<>();
-     
-    private void bookIdList(){
-        for(Book i:book_list){
-            book_id.add(i.getIsbn());
-        }
-    }
+    private ArrayList<String> book_id = m.bookIsbnList();
      
     /**
      * This method is called from within the constructor to initialize the form.

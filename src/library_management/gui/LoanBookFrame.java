@@ -27,66 +27,21 @@ public class LoanBookFrame extends javax.swing.JFrame {
     public LoanBookFrame() {
         initComponents();
         showAll();
-        allOrders();
-        readerIdList();
     }
     
     Manager m = new Manager("","","");
     
-    private ArrayList<Order> order_list = readOrdersFromFile("ORDER.in");
     private DefaultTableModel model;
-    private ArrayList<String> reader_id = new ArrayList<>();
-    private ArrayList<String> order_id = new ArrayList<>();
-    private ArrayList<Reader> reader_list = readReadersFromFile("READER.in");
     
-    private void allOrders(){
-        for(Order i:order_list){
-            order_id.add(i.getId());
-        }
-    }
+    private ArrayList<String> order_id = m.orderIdList();
+    private ArrayList<Order> order_list = m.orderList();
     
-    private void readerIdList(){
-        for(Order i:order_list){
-            reader_id.add(i.getReaderId());
-        }
-    }
-    
-    public static ArrayList<Reader> readReadersFromFile(String fileName) {
-        ArrayList<Reader> readers = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            readers = (ArrayList<Reader>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return readers;
-    }
-     
-    public static ArrayList<Order> readOrdersFromFile(String fileName) {
-        ArrayList<Order> orders = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            orders = (ArrayList<Order>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
+    private ArrayList<String> reader_id = m.readerIdList();
+    private ArrayList<Reader> reader_list = m.readerList();
 
     private void showAll(){
-        order_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        allOrder();
-    }
-    
-    private void showOne(String s){
-        order_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-        oneOrder(s);
-    }
-    
-    private void allOrder(){
-        order_list = readOrdersFromFile("ORDER.in");
         int tong = 0;
         for(Order i : order_list){
             Reader temp = m.getReaderById(i.getReaderId());
@@ -98,8 +53,10 @@ public class LoanBookFrame extends javax.swing.JFrame {
         jTextField2.setText(String.format("%d",tong));
     }
     
-    private void oneOrder(String s){
-        order_list = readOrdersFromFile("ORDER.in");
+    private void showOne(String s){
+        order_list = new ArrayList<>();
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
         for(Order i : order_list){
             if(i.getId().equals(s)){
                 Reader temp = m.getReaderById(i.getReaderId());
@@ -112,7 +69,6 @@ public class LoanBookFrame extends javax.swing.JFrame {
     }
     
     private void allReaderOrder(String s){
-        order_list = readOrdersFromFile("ORDER.in");
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         int tong = 0;

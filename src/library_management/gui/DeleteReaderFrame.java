@@ -29,45 +29,18 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
     
     Manager m = new Manager("","","");
     
-    private ArrayList<Reader> reader_list;
+    private ArrayList<String> reader_id = m.readerIdList();
+    private ArrayList<Reader> reader_list = m.readerList();
     private DefaultTableModel model;
-     
-    public static ArrayList<Reader> readReadersFromFile(String fileName) {
-        ArrayList<Reader> readers = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            readers = (ArrayList<Reader>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return readers;
-    }
 
     private boolean checkReader(String s){
-        reader_list = readReadersFromFile("READER.in");
-        for(Reader i : reader_list){
-            if(i.getId().equals(s)){
-                return true;
-            }
-        }
+        if(reader_id.contains(s)) return true;
         return false;
     }
     
     private void showAll(){
-        reader_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        allReader();
-    }
-    
-    private void showOne(String s){
-        reader_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-        oneReader(s);
-    }
-    
-    private void allReader(){
-        reader_list = readReadersFromFile("READER.in");
         for(Reader i : reader_list){
             model.addRow(new Object[]{
                 i.getId(), i.getName(), i.getPhone(), i.getEmail() ,i.getFine()
@@ -75,8 +48,9 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
         }
     }
     
-    private void oneReader(String s){
-        reader_list = readReadersFromFile("READER.in");
+    private void showOne(String s){
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
         for(Reader i : reader_list){
             if(i.getId().equals(s)){
                 model.addRow(new Object[]{
@@ -252,7 +226,6 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
             if(!checkReader(id)){
                 JOptionPane.showMessageDialog(this, "Reader not exist.", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                reader_list = readReadersFromFile("READER.in");
                 for(Reader i : reader_list){
                     if(i.getId().equals(id)){
                         if(i.getFine()!=0){

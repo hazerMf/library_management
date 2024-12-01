@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import library_management.Book;
+import library_management.Manager;
 
 /**
  *
@@ -26,45 +27,17 @@ public class BookFrame extends javax.swing.JFrame {
     public BookFrame() {
         initComponents();
         showAll();
-        bookIdList();
     }
     
-    private ArrayList<String> book_id = new ArrayList<>();
-    private ArrayList<Book> book_list;
+    Manager m = new Manager("","","");
+    
+    private ArrayList<String> book_id = m.bookIsbnList();
+    private ArrayList<Book> book_list = m.bookList();
     private DefaultTableModel model;
     
-    private void bookIdList(){
-        for(Book i:book_list){
-            book_id.add(i.getIsbn());
-        }
-    }
-     
-    public static ArrayList<Book> readBooksFromFile(String fileName) {
-        ArrayList<Book> books = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            books = (ArrayList<Book>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
-
     private void showAll(){
-        book_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        allBook();
-    }
-    
-    private void showOne(String s){
-        book_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-        oneBook(s);
-    }
-    
-    private void allBook(){
-        book_list = readBooksFromFile("BOOK.in");
         for(Book i : book_list){
             model.addRow(new Object[]{
                 i.getIsbn(), i.getTitle(), i.getAuthor(), i.getPublisher(), i.getBookNumber()
@@ -72,8 +45,9 @@ public class BookFrame extends javax.swing.JFrame {
         }
     }
     
-    private void oneBook(String s){
-        book_list = readBooksFromFile("BOOK.in");
+    private void showOne(String s){
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
         for(Book i : book_list){
             if(i.getIsbn().equals(s)){
                 model.addRow(new Object[]{

@@ -4,6 +4,7 @@
  */
 package library_management.gui;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import library_management.Manager;
 
@@ -20,6 +21,8 @@ public class NewManagerFrame extends javax.swing.JFrame {
         initComponents();
     }
     Manager m = new Manager("","","");
+    
+    ArrayList<String> manager_id = m.managerIdList();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -187,7 +190,7 @@ public class NewManagerFrame extends javax.swing.JFrame {
         String phone = jTextField3.getText();
         String email = jTextField4.getText();
 
-        //check xem da co reader chua
+        //check xem da co manager chua
 
         if(name.equals("")){
             JOptionPane.showMessageDialog(this, "Name can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -198,13 +201,18 @@ public class NewManagerFrame extends javax.swing.JFrame {
         }else if(email.equals("")){
             JOptionPane.showMessageDialog(this, "Email can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(this, "Manager succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            //add reader
-            m.addManager(new Manager(id,name,phone,email));
-            jTextField1.setText("");
-            jTextField2.setText("");
-            jTextField3.setText("");
-            jTextField4.setText("");
+            if(manager_id.contains(id)){
+                JOptionPane.showMessageDialog(this, "This manager ID already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Manager succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                //add manager
+                m.addManager(new Manager(id,name,phone,email));
+                jTextField1.setText("");
+                jTextField2.setText("");
+                jTextField3.setText("");
+                jTextField4.setText("");
+            }
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

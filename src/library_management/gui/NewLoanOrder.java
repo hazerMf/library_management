@@ -27,51 +27,16 @@ public class NewLoanOrder extends javax.swing.JFrame {
      */
     public NewLoanOrder() {
         initComponents();
-        allBook();
-        allReader();
     }
 
-    private ArrayList<String> book_id = new ArrayList<>();
-    private ArrayList<String> reader_id = new ArrayList<>();
-    private ArrayList<Book> book_list;
-    private ArrayList<Reader> reader_list;
+    Manager m = new Manager("","","");
     
-    public static ArrayList<Book> readBooksFromFile(String fileName) {
-        ArrayList<Book> books = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            books = (ArrayList<Book>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
-    
-    public static ArrayList<Reader> readReadersFromFile(String fileName) {
-        ArrayList<Reader> readers = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            readers = (ArrayList<Reader>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return readers;
-    }
-    
-    private void allBook(){
-        book_list = readBooksFromFile("BOOK.in");
-        for(Book i : book_list){
-            book_id.add(i.getIsbn());
-        }
-    }
-    
-    private void allReader(){
-        reader_list = readReadersFromFile("READER.in");
-        for(Reader i : reader_list){
-            reader_id.add(i.getId());
-        }
-    }
-    
+    private ArrayList<String> book_id = m.bookIsbnList();
+    private ArrayList<String> reader_id = m.readerIdList();
+    private ArrayList<Book> book_list = m.bookList();
+    private ArrayList<Reader> reader_list = m.readerList();
+
     private boolean checkCopy(String s){
-        book_list = readBooksFromFile("BOOK.in");
         for(Book i : book_list){
             if(i.getIsbn().equals(s)){
                 if(i.getBookNumber()==0) return false;
@@ -80,9 +45,7 @@ public class NewLoanOrder extends javax.swing.JFrame {
         }
         return true;
     }
-    
-    Manager m = new Manager("","","");
-    
+      
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

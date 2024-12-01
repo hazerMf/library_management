@@ -18,45 +18,13 @@ public class DeleteManagerFrame extends javax.swing.JFrame {
     
     Manager m = new Manager("","","");
     
-    private ArrayList<Manager> manager_list;
+    private ArrayList<String> manager_id = m.managerIdList();
+    private ArrayList<Manager> manager_list = m.managerList();
     private DefaultTableModel model;
-     
-    public static ArrayList<Manager> readManagersFromFile(String fileName) {
-        ArrayList<Manager> managers = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            managers = (ArrayList<Manager>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return managers;
-    }
 
-    private boolean checkManager(String s){
-        manager_list = readManagersFromFile("MANAGER.in");
-        for(Manager i : manager_list){
-            if(i.getId().equals(s)){
-                return true;
-            }
-        }
-        return false;
-    }
-    
     private void showAll(){
-        manager_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        allManager();
-    }
-    
-    private void showOne(String s){
-        manager_list = new ArrayList<>();
-        model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-        oneManager(s);
-    }
-    
-    private void allManager(){
-        manager_list = readManagersFromFile("MANAGER.in");
         for(Manager i : manager_list){
             model.addRow(new Object[]{
                 i.getId(), i.getName(), i.getPhone(), i.getEmail()
@@ -64,8 +32,9 @@ public class DeleteManagerFrame extends javax.swing.JFrame {
         }
     }
     
-    private void oneManager(String s){
-        manager_list = readManagersFromFile("MANAGER.in");
+    private void showOne(String s){
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
         for(Manager i : manager_list){
             if(i.getId().equals(s)){
                 model.addRow(new Object[]{
@@ -73,6 +42,11 @@ public class DeleteManagerFrame extends javax.swing.JFrame {
                 });
             }
         }
+    }
+    
+    private boolean checkManager(String s){
+        if(manager_id.contains(s)) return true;
+        return false;
     }
 
     @SuppressWarnings("unchecked")
