@@ -281,5 +281,22 @@ public class Manager extends User{
         }
     }
     
+     public Reader getReaderById(String readerId){
+        try{
+            ArrayList<Reader> readerList;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
+                readerList = (ArrayList<Reader>) input.readObject();
+            }
+            for (Reader reader : readerList) {
+                if (reader.getId().equals(readerId)) {
+                    return reader;
+                }
+            }
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    } 
     
 }
