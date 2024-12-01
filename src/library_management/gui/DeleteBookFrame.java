@@ -121,6 +121,7 @@ public class DeleteBookFrame extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -130,7 +131,15 @@ public class DeleteBookFrame extends javax.swing.JFrame {
             new String [] {
                 "ISBN", "Author", "Title", "Publisher", "Copy"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));

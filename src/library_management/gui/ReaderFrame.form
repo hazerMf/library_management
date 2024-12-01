@@ -117,7 +117,7 @@
               <Table columnCount="4" rowCount="2">
                 <Column editable="false" title="Reader ID" type="java.lang.Object"/>
                 <Column editable="false" title="Name" type="java.lang.Object"/>
-                <Column editable="true" title="Phone" type="java.lang.Object"/>
+                <Column editable="false" title="Phone" type="java.lang.Object"/>
                 <Column editable="false" title="Email" type="java.lang.Object"/>
               </Table>
             </Property>

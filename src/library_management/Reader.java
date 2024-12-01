@@ -67,7 +67,7 @@ public class Reader extends User {
     public String getId() {
         return id;
     }
-
+    // Chuyen thanh getTotalFine
     public int getFine() {
         fine = 0;
         try(ObjectInputStream input = new ObjectInputStream(new FileInputStream("ORDER.in"))){

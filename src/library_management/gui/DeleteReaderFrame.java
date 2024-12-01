@@ -117,6 +117,7 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
             }
         });
 
+        jTable2.setAutoCreateRowSorter(true);
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
