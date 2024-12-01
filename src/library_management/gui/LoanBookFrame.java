@@ -10,7 +10,9 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import library_management.Manager;
 import library_management.Order;
+import library_management.Reader;
 
 
 /**
@@ -25,12 +27,39 @@ public class LoanBookFrame extends javax.swing.JFrame {
     public LoanBookFrame() {
         initComponents();
         showAll();
+        allOrders();
+        readerIdList();
     }
     
-    private ArrayList<Order> order_list;
-    private DefaultTableModel model;
-     
+    Manager m = new Manager("","","");
     
+    private ArrayList<Order> order_list = readOrdersFromFile("ORDER.in");
+    private DefaultTableModel model;
+    private ArrayList<String> reader_id = new ArrayList<>();
+    private ArrayList<String> order_id = new ArrayList<>();
+    private ArrayList<Reader> reader_list = readReadersFromFile("READER.in");
+    
+    private void allOrders(){
+        for(Order i:order_list){
+            order_id.add(i.getId());
+        }
+    }
+    
+    private void readerIdList(){
+        for(Order i:order_list){
+            reader_id.add(i.getReaderId());
+        }
+    }
+    
+    public static ArrayList<Reader> readReadersFromFile(String fileName) {
+        ArrayList<Reader> readers = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            readers = (ArrayList<Reader>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return readers;
+    }
      
     public static ArrayList<Order> readOrdersFromFile(String fileName) {
         ArrayList<Order> orders = null;
@@ -58,22 +87,45 @@ public class LoanBookFrame extends javax.swing.JFrame {
     
     private void allOrder(){
         order_list = readOrdersFromFile("ORDER.in");
+        int tong = 0;
         for(Order i : order_list){
+            Reader temp = m.getReaderById(i.getReaderId());
+            tong += temp.getFineOrder(i.getId());
             model.addRow(new Object[]{
-                i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn()
+                i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
             });
         }
+        jTextField2.setText(String.format("%d",tong));
     }
     
     private void oneOrder(String s){
         order_list = readOrdersFromFile("ORDER.in");
         for(Order i : order_list){
             if(i.getId().equals(s)){
+                Reader temp = m.getReaderById(i.getReaderId());
                 model.addRow(new Object[]{
-                    i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn()
+                    i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
                 });
+                jTextField2.setText(String.format("%d",temp.getFineOrder(i.getId())));
             }
         }
+    }
+    
+    private void allReaderOrder(String s){
+        order_list = readOrdersFromFile("ORDER.in");
+        model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        int tong = 0;
+        for(Order i : order_list){
+            if(i.getReaderId().equals(s)){
+                Reader temp = m.getReaderById(i.getReaderId());
+                model.addRow(new Object[]{
+                    i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
+                });
+                tong += temp.getFineOrder(i.getId());
+            }
+        }
+        jTextField2.setText(String.format("%d",tong));
     }
 
     /**
@@ -88,37 +140,41 @@ public class LoanBookFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("Go back");
+        jButton2.setText("⬅Go back");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Return Book");
+        jButton1.setText("🕮Return Book");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("New Loan Order");
+        jButton3.setText("➕New Loan Order");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("Check loan order");
 
         jLabel2.setText("Loan ID");
 
@@ -128,7 +184,7 @@ public class LoanBookFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Check");
+        jButton4.setText("🔍Check");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -137,15 +193,15 @@ public class LoanBookFrame extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Loan ID", "Reader ID", "Borrow Date", "Return Date", "Book ISBN"
+                "Loan ID", "Reader ID", "Borrow Date", "Return Date", "Book ISBN", "Fine"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -154,52 +210,107 @@ public class LoanBookFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable2);
 
+        jLabel3.setText("Reader ID");
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("🔍Check");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(51, 153, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("Check loan order");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(39, 39, 39))
+        );
+
+        jLabel4.setText("Total Fine:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(172, 172, 172)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jButton2)
-                        .addGap(132, 132, 132)
-                        .addComponent(jButton1)
-                        .addGap(142, 142, 142)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addGap(184, 184, 184)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(139, 139, 139)
-                                        .addComponent(jButton4))
-                                    .addComponent(jLabel1))))))
-                .addContainerGap(161, Short.MAX_VALUE))
+                                .addGap(28, 28, 28)
+                                .addComponent(jTextField1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(343, 343, 343)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jLabel1)
-                .addGap(31, 31, 31)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4))
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton3))
-                .addGap(70, 70, 70))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -249,9 +360,35 @@ public class LoanBookFrame extends javax.swing.JFrame {
             showAll();
         }else{
             //show loan order infomation
-            showOne(id);
+            if(!order_id.contains(id)){
+                JOptionPane.showMessageDialog(this, "Loan not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                showOne(id);
+            }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        String id = jTextField3.getText();
+        
+        if(id.equals("")){
+            showAll();
+        }else{
+            //show loan order infomation
+            //check reader id
+            if(!reader_id.contains(id)){
+                JOptionPane.showMessageDialog(this, "Reader not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                allReaderOrder(id);
+            }
+            
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,10 +430,16 @@ public class LoanBookFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
