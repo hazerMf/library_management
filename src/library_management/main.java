@@ -36,6 +36,10 @@ public class main {
 //        System.out.println("Tien phat R03 cho don O04: " + m.getReaderById("R03").getFineOrder("O04"));
 //        System.out.println("Tine phat tong R03: " + m.getReaderById("R03").getFine());
 
+
+//        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("ORDER.in"));
+//        output.writeObject(new ArrayList<Order>());
+//        output.close();
     }
     
 }
