@@ -12,8 +12,19 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Manager extends User{
+    private String id;
+
+    public Manager(String id, String name, String phone, String email) {
+        super(name, phone, email);
+        this.id = id;
+    }
+    
     public Manager(String name, String phone, String email) {
         super(name, phone, email);
+    }
+
+    public String getId() {
+        return id;
     }
     
     public void addBook(Book book){
@@ -156,6 +167,43 @@ public class Manager extends User{
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    //them Manager
+    public void addManager(Manager manager){
+        try {
+            ArrayList<Manager> manager_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("MANAGER.in"))) {
+                manager_list = (ArrayList<Manager>) input.readObject();
+            }
+            manager_list.add(manager);
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("MANAGER.in"))) {
+                output.writeObject(manager_list);
+            }
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    //Xoa Manager
+    public void deleteManager(String id){
+        try {
+            ArrayList<Manager> manager_list;
+            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("MANAGER.in"))) {
+                manager_list = (ArrayList<Manager>) input.readObject();
+            }
+            for (int i = 0; i < manager_list.size(); i++) {
+                if (manager_list.get(i).getId().equals(id)) {
+                    manager_list.remove(i);
+                    break;
+                }
+            }
+            try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("MANAGER.in"))) {
+                output.writeObject(manager_list);
+            }
+        } 
+        catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }

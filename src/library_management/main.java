@@ -35,9 +35,12 @@ public class main {
 //        System.out.println("Tien phat R03 cho don O04: " + m.getReaderById("R03").getFineOrder("O04"));
 //        System.out.println("Tine phat tong R03: " + m.getReaderById("R03").getFine());
         
-//        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("OrderIndex.in"));
-//        output.writeObject(new ArrayList<Integer>());
+//        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("MANAGER.in"));
+//        output.writeObject(new ArrayList<Manager>());
 //        output.close();
+
+//          Manager m = new Manager("", "", "");
+//          m.addManager(new Manager("001", "a", "b", "c"));
     }
     
 }
