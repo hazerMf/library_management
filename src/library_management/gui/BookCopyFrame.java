@@ -156,20 +156,23 @@ public class BookCopyFrame extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(293, 352, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(CopyText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(208, 208, 208)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addCopyButton)
-                                    .addComponent(jButton1))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(289, 289, 289)
+                                        .addComponent(jButton1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(CopyText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(addCopyButton)))))
+                        .addGap(0, 231, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,19 +238,26 @@ public class BookCopyFrame extends javax.swing.JFrame {
         String isbn = jTextField1.getText(); // Trich xuat du lieu ma ISBN cua quyen sach muon thay doi tu truong text
         
         // Tim sach trung ma ISBN va chinh so luong sach
-        for(Book book : book_list){
-            if(book.getIsbn().equals(isbn)){
-                book.setBookNumber(copy);
-                break;
+        if(book_id.contains(isbn)){
+            for(Book book : book_list){
+                if(book.getIsbn().equals(isbn)){
+                    book.setBookNumber(copy);
+                    break;
+                }
             }
+            try(ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("BOOK.in"))){ // Ghi lai du lieu vao file nhi phan BOOK.in
+                o.writeObject(book_list);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            showOne(isbn); // Hien thi sach do len bang
+            JOptionPane.showMessageDialog(this, "Copy update succesfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            jTextField1.setText("");
+            CopyText.setText("");
+        }else{
+            JOptionPane.showMessageDialog(this, "Book not exist.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        try(ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("BOOK.in"))){ // Ghi lai du lieu vao file nhi phan BOOK.in
-            o.writeObject(book_list);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        showOne(isbn); // Hien thi sach do len bang
-        JOptionPane.showMessageDialog(this, "Copy update succesfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        
     }//GEN-LAST:event_addCopyButtonActionPerformed
 
     /**
