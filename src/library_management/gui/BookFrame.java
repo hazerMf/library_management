@@ -156,7 +156,7 @@ public class BookFrame extends javax.swing.JFrame {
                 .addGap(39, 39, 39))
         );
 
-        addCopyButton.setText("Add Copy");
+        addCopyButton.setText("Set Copy");
         addCopyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCopyButtonActionPerformed(evt);

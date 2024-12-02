@@ -5,6 +5,9 @@
 package library_management.gui;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import library_management.Book;
@@ -195,12 +198,25 @@ public class NewLoanOrder extends javax.swing.JFrame {
             }else if(!checkCopy(isbn)){
                 JOptionPane.showMessageDialog(this, "Book copy insufficient.", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                m.addOrder(new Order(id,bDate,rDate,isbn));
-                JOptionPane.showMessageDialog(this, "Order succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                jTextField1.setText("");
-                jTextField2.setText("");
-                jTextField3.setText("");
-                jTextField4.setText("");
+                try{
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate borrowDate  = LocalDate.parse(bDate, formatter);
+                    LocalDate returnDate = LocalDate.parse(rDate, formatter);
+                    if(returnDate.isBefore(borrowDate)){
+                        JOptionPane.showMessageDialog(this, "Invalid date.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        m.addOrder(new Order(id,bDate,rDate,isbn));
+                        JOptionPane.showMessageDialog(this, "Order succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        jTextField1.setText("");
+                        jTextField2.setText("");
+                        jTextField3.setText("");
+                        jTextField4.setText("");
+                    }
+                }
+                catch(DateTimeParseException e){
+                    JOptionPane.showMessageDialog(this, "Invalid date.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             
         }
@@ -210,7 +226,7 @@ public class NewLoanOrder extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         LoanBookFrame lbf = new LoanBookFrame();
-        lbf.setTitle("Book");
+        lbf.setTitle("Loan Book");
         lbf.setLocationRelativeTo(null);
         lbf.setVisible(true);
         lbf.setResizable(false);

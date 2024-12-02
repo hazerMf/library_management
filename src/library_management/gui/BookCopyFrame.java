@@ -65,7 +65,7 @@ public class BookCopyFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        addCopyButton.setText("Add Copy");
+        addCopyButton.setText("Set Copy");
         addCopyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCopyButtonActionPerformed(evt);
@@ -234,28 +234,33 @@ public class BookCopyFrame extends javax.swing.JFrame {
 
     // Bam nut Add Copy de chinh so luong mot quyen sach trong thu vien
     private void addCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCopyButtonActionPerformed
-        int copy = Integer.parseInt(CopyText.getText()); // Trich xuat du lieu so luong quyen sach muon thay doi tu truong text
         String isbn = jTextField1.getText(); // Trich xuat du lieu ma ISBN cua quyen sach muon thay doi tu truong text
-        
-        // Tim sach trung ma ISBN va chinh so luong sach
-        if(book_id.contains(isbn)){
-            for(Book book : book_list){
-                if(book.getIsbn().equals(isbn)){
-                    book.setBookNumber(copy);
-                    break;
+        int copy = 0;
+        try{// Trich xuat du lieu so luong quyen sach muon thay doi tu truong text)
+            copy = Integer.parseInt(CopyText.getText());
+            // Tim sach trung ma ISBN va chinh so luong sach
+            if(book_id.contains(isbn)){
+                for(Book book : book_list){
+                    if(book.getIsbn().equals(isbn)){
+                        book.setBookNumber(copy);
+                        break;
+                    }
                 }
+                try(ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("BOOK.in"))){ // Ghi lai du lieu vao file nhi phan BOOK.in
+                    o.writeObject(book_list);
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                showOne(isbn); // Hien thi sach do len bang
+                JOptionPane.showMessageDialog(this, "Copy update succesfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                jTextField1.setText("");
+                CopyText.setText("");
+            }else{
+                JOptionPane.showMessageDialog(this, "Book not exist.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            try(ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("BOOK.in"))){ // Ghi lai du lieu vao file nhi phan BOOK.in
-                o.writeObject(book_list);
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            showOne(isbn); // Hien thi sach do len bang
-            JOptionPane.showMessageDialog(this, "Copy update succesfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            jTextField1.setText("");
-            CopyText.setText("");
-        }else{
-            JOptionPane.showMessageDialog(this, "Book not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "You must fill the blank with number", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_addCopyButtonActionPerformed

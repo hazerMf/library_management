@@ -239,19 +239,26 @@ public class NewBookFrame extends javax.swing.JFrame {
         }else if(copy.equals("")){
             JOptionPane.showMessageDialog(this, "Copy can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(book_id.contains(isbn)){
-                JOptionPane.showMessageDialog(this, "Book with the same ISBN already exist.", "Error", JOptionPane.ERROR_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(this, "Book succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                Book b = new Book(isbn, title, author, publisher);
-                b.setBookNumber(Integer.parseInt(copy));
-                m.addBook(b);
-                jTextField1.setText("");
-                jTextField2.setText("");
-                jTextField3.setText("");
-                jTextField4.setText("");
-                jTextField5.setText("");
-                jTextField6.setText("");
+            int copyText = 0;
+            try{
+                copyText = Integer.parseInt(copy);
+                if(book_id.contains(isbn)){
+                    JOptionPane.showMessageDialog(this, "Book with the same ISBN already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(this, "Book succesfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    Book b = new Book(isbn, title, author, publisher);
+                    b.setBookNumber(Integer.parseInt(copy));
+                    m.addBook(b);
+                    jTextField1.setText("");
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
+                    jTextField5.setText("");
+                    jTextField6.setText("");
+                }
+            }
+            catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "Fill the blank Copy with number.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         

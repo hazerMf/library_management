@@ -38,6 +38,7 @@ public class ReturnBookFrame extends javax.swing.JFrame {
     }
     
     private void showAll(){
+        order_list = m.orderList();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(Order i : order_list){
@@ -212,15 +213,10 @@ public class ReturnBookFrame extends javax.swing.JFrame {
             }else{
                 for(Order i : order_list){
                     if(i.getId().equals(id)){
-                        Reader temp = m.getReaderById(i.getReaderId());
-                        if(temp.getFineOrder(id) != 0){
-                            JOptionPane.showMessageDialog(this, "Cannot return book.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }else{
-                            m.deleteOrder(id);
-                            JOptionPane.showMessageDialog(this, "Book succesfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            jTextField1.setText("");
-                            showAll();
-                        }
+                        m.deleteOrder(id);
+                        JOptionPane.showMessageDialog(this, "Book succesfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        jTextField1.setText("");
+                        showAll();
                     }
                 }
             }
