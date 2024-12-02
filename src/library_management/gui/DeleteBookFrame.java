@@ -34,6 +34,7 @@ public class DeleteBookFrame extends javax.swing.JFrame {
     private DefaultTableModel model;
     
     private void showAll(){
+        book_list = m.bookList();
         model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         for(Book i : book_list){

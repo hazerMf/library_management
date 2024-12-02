@@ -41,6 +41,7 @@ public class ReturnBookFrame extends javax.swing.JFrame {
     }
     
     private void showAll(){
+        order_list = m.orderList();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(Order i : order_list){

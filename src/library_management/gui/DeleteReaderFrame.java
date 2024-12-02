@@ -39,6 +39,7 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
     }
     
     private void showAll(){
+        reader_list = m.readerList();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(Reader i : reader_list){

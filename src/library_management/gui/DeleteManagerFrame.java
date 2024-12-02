@@ -23,6 +23,7 @@ public class DeleteManagerFrame extends javax.swing.JFrame {
     private DefaultTableModel model;
 
     private void showAll(){
+        manager_list = m.managerList();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(Manager i : manager_list){
