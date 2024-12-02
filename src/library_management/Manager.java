@@ -417,13 +417,7 @@ public class Manager extends User {
     public Reader getReaderById(String readerId){
         
         // Trich xuat ArrayList<Reader> trong file nhi phan READER.in luu vao reader_list
-        ArrayList<Reader> readerList = null;
-        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("READER.in"))) {
-            readerList = (ArrayList<Reader>) input.readObject();
-        }
-        catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        ArrayList<Reader> readerList = this.readerList();
         
         // Kiem tra xem neu ton tai mot Reader co ID bang ID cua Reader minh muon tim, neu co ham tra ve Reader do
         for (Reader reader : readerList) {

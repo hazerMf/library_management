@@ -45,10 +45,12 @@ public class LoanBookFrame extends javax.swing.JFrame {
         int tong = 0;
         for(Order i : order_list){
             Reader temp = m.getReaderById(i.getReaderId());
-            tong += temp.getFineOrder(i.getId());
-            model.addRow(new Object[]{
-                i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
-            });
+            if(temp!=null){
+                tong += temp.getFineOrder(i.getId());
+                model.addRow(new Object[]{
+                    i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
+                });
+            }
         }
         jTextField2.setText(String.format("%d",tong));
     }
