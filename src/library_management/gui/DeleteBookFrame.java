@@ -215,10 +215,15 @@ public class DeleteBookFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Book ISBN can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             // delete book
-            m.deleteBook(isbn);
-            JOptionPane.showMessageDialog(this, "Book succesfully deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            showAll();
-            jTextField1.setText("");
+            if(!book_id.contains(isbn)){
+                JOptionPane.showMessageDialog(this, "Don't have this book", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                m.deleteBook(isbn);
+                JOptionPane.showMessageDialog(this, "Book succesfully deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                jTextField1.setText("");
+                showAll();
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

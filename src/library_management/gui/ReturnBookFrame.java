@@ -29,6 +29,7 @@ public class ReturnBookFrame extends javax.swing.JFrame {
     
     private ArrayList<Order> order_list = m.orderList();
     private ArrayList<String> order_id = m.orderIdList();
+    private ArrayList<Reader> reader_list = m.readerList();
     private DefaultTableModel model;
 
     private boolean checkOrder(String s){
@@ -37,14 +38,15 @@ public class ReturnBookFrame extends javax.swing.JFrame {
     }
     
     private void showAll(){
-        order_list = m.orderList();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(Order i : order_list){
             Reader temp = m.getReaderById(i.getReaderId());
-            model.addRow(new Object[]{
-                i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
-            });
+            if(temp != null){
+                model.addRow(new Object[]{
+                    i.getId(), i.getReaderId(), i.getBorrowDate(), i.getReturnDate(), i.getIsbn(), temp.getFineOrder(i.getId())
+                });
+            }
         }
     }
     
@@ -208,9 +210,19 @@ public class ReturnBookFrame extends javax.swing.JFrame {
             if(!checkOrder(id)){
                 JOptionPane.showMessageDialog(this, "Loan ID not exist.", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(this, "Book succesfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                m.deleteOrder(id);
-                showAll();
+                for(Order i : order_list){
+                    if(i.getId().equals(id)){
+                        Reader temp = m.getReaderById(i.getReaderId());
+                        if(temp.getFineOrder(id) != 0){
+                            JOptionPane.showMessageDialog(this, "Cannot return book.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            m.deleteOrder(id);
+                            JOptionPane.showMessageDialog(this, "Book succesfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            jTextField1.setText("");
+                            showAll();
+                        }
+                    }
+                }
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed

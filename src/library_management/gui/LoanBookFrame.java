@@ -56,7 +56,6 @@ public class LoanBookFrame extends javax.swing.JFrame {
     }
     
     private void showOne(String s){
-        order_list = new ArrayList<>();
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(Order i : order_list){
@@ -168,6 +167,12 @@ public class LoanBookFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable2);
+
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Reader ID");
 
@@ -348,6 +353,10 @@ public class LoanBookFrame extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
