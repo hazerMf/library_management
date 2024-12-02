@@ -4,9 +4,6 @@
  */
 package library_management.gui;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +31,7 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
     private DefaultTableModel model;
 
     private boolean checkReader(String s){
-        if(reader_id.contains(s)) return true;
-        return false;
+        return reader_id.contains(s);
     }
     
     private void showAll(){
@@ -43,7 +39,7 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
         model.setRowCount(0);
         for(Reader i : reader_list){
             model.addRow(new Object[]{
-                i.getId(), i.getName(), i.getPhone(), i.getEmail() ,i.getFine()
+                i.getId(), i.getName(), i.getPhone(), i.getEmail() ,i.getTotalFine()
             });
         }
     }
@@ -54,7 +50,7 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
         for(Reader i : reader_list){
             if(i.getId().equals(s)){
                 model.addRow(new Object[]{
-                    i.getId(), i.getName(), i.getPhone(), i.getEmail(), i.getFine()
+                    i.getId(), i.getName(), i.getPhone(), i.getEmail(), i.getTotalFine()
                 });
             }
         }
@@ -228,7 +224,7 @@ public class DeleteReaderFrame extends javax.swing.JFrame {
             }else{
                 for(Reader i : reader_list){
                     if(i.getId().equals(id)){
-                        if(i.getFine()!=0){
+                        if(i.getTotalFine()!=0){
                             JOptionPane.showMessageDialog(this, "This reader can not be removed.", "Error", JOptionPane.ERROR_MESSAGE);
                         }else{
                             m.deleteReader(id);

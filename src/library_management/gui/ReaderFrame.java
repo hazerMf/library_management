@@ -1,10 +1,6 @@
 package library_management.gui;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import library_management.gui.NewReaderFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import library_management.Manager;
@@ -24,8 +20,7 @@ public class ReaderFrame extends javax.swing.JFrame {
     private DefaultTableModel model;
 
     private boolean checkReader(String s){
-        if(reader_id.contains(s)) return true;
-        return false;
+        return reader_id.contains(s);
     }
     
     private void showAll(){

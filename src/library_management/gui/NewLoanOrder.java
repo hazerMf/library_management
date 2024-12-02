@@ -5,9 +5,6 @@
 package library_management.gui;
 
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import library_management.Book;
@@ -39,8 +36,7 @@ public class NewLoanOrder extends javax.swing.JFrame {
     private boolean checkCopy(String s){
         for(Book i : book_list){
             if(i.getIsbn().equals(s)){
-                if(i.getBookNumber()==0) return false;
-                else return true;
+                return i.getBookNumber() != 0;
             }
         }
         return true;

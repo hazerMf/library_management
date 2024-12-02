@@ -4,11 +4,7 @@
  */
 package library_management.gui;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import library_management.Book;
@@ -29,12 +25,13 @@ public class BookFrame extends javax.swing.JFrame {
         showAll();
     }
     
-    Manager m = new Manager("","","");
+    Manager m = new Manager("","",""); // Khoi tao mot Manager tam de su dung cac method
     
-    private ArrayList<String> book_id = m.bookIsbnList();
-    private ArrayList<Book> book_list = m.bookList();
+    private ArrayList<String> book_id = m.bookIsbnList(); // Lay danh sach cac ma ISBN
+    private ArrayList<Book> book_list = m.bookList(); // Lay danh sach cac sach trong thu vien
     private DefaultTableModel model;
     
+    // Hien thi danh sach tat ca cac sach trong thu vien 
     private void showAll(){
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -45,6 +42,7 @@ public class BookFrame extends javax.swing.JFrame {
         }
     }
     
+    // Hien thi mot sach trong thu vien tim theo ma ISBN
     private void showOne(String s){
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -139,7 +137,7 @@ public class BookFrame extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Book Infomation");
+        jLabel1.setText("Book Information");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

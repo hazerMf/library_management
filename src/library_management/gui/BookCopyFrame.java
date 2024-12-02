@@ -16,12 +16,13 @@ public class BookCopyFrame extends javax.swing.JFrame {
         showAll();
     }
     
-    Manager m = new Manager("","","");
+    Manager m = new Manager("","",""); // Khoi tao mot Manager tam de su dung cac method
     
-    private ArrayList<String> book_id = m.bookIsbnList();
-    private ArrayList<Book> book_list = m.bookList();
+    private ArrayList<String> book_id = m.bookIsbnList(); // Lay danh sach cac ma ISBN
+    private ArrayList<Book> book_list = m.bookList(); // Lay danh sach cac sach trong thu vien
     private DefaultTableModel model;
     
+    // Hien thi danh sach tat ca cac sach trong thu vien 
     private void showAll(){
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -32,6 +33,7 @@ public class BookCopyFrame extends javax.swing.JFrame {
         }
     }
     
+    // Hien thi mot sach trong thu vien tim theo ma ISBN
     private void showOne(String s){
         model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -193,6 +195,7 @@ public class BookCopyFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Bam nut Go back quay ve man hinh Book Information
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         dispose();
@@ -204,17 +207,17 @@ public class BookCopyFrame extends javax.swing.JFrame {
         mf.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Bam nut Check book de tim sach thong qua ma ISBN
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // show book by id
-        String isbn = jTextField1.getText();
+        String isbn = jTextField1.getText(); // Trich xuat du lieu tu truong text
 
-        // if empty show all
+        // Neu khong co input gi thi in ra het tat ca cac sach trong thu vien
         if(isbn.equals("")){
             showAll();
         }else{
-            if(!book_id.contains(isbn)){
+            if(!book_id.contains(isbn)){ // Neu khong tim thay sach thi in ra loi
                 JOptionPane.showMessageDialog(this, "Book not exist.", "Error", JOptionPane.ERROR_MESSAGE);
-            }else showOne(isbn);
+            }else showOne(isbn); // In ra sach da tim duoc
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -226,22 +229,24 @@ public class BookCopyFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CopyTextActionPerformed
 
+    // Bam nut Add Copy de chinh so luong mot quyen sach trong thu vien
     private void addCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCopyButtonActionPerformed
-        int copy = Integer.parseInt(CopyText.getText());
-        String isbn = jTextField1.getText();
+        int copy = Integer.parseInt(CopyText.getText()); // Trich xuat du lieu so luong quyen sach muon thay doi tu truong text
+        String isbn = jTextField1.getText(); // Trich xuat du lieu ma ISBN cua quyen sach muon thay doi tu truong text
         
+        // Tim sach trung ma ISBN va chinh so luong sach
         for(Book book : book_list){
             if(book.getIsbn().equals(isbn)){
                 book.setBookNumber(copy);
                 break;
             }
         }
-        try(ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("BOOK.in"))){
+        try(ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("BOOK.in"))){ // Ghi lai du lieu vao file nhi phan BOOK.in
             o.writeObject(book_list);
         }catch(IOException e){
             e.printStackTrace();
         }
-        showOne(isbn);
+        showOne(isbn); // Hien thi sach do len bang
         JOptionPane.showMessageDialog(this, "Copy update succesfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_addCopyButtonActionPerformed
 
